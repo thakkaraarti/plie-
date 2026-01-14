@@ -11,35 +11,27 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-
+import LoginScreen from './src/screens/Login/LoginScreen';
+import AppNavigator from './src/navigation/navigationContainer';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import store, {persistor} from './src/redux/store';
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
+     <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+      <AppNavigator />
     </SafeAreaProvider>
+     </PersistGate>
+    </Provider>
   );
 }
 
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
 
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
